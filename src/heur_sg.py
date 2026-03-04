@@ -10,7 +10,7 @@ class ShootAndGo(Heuristic):
     Implementation of generalized Shoot & Go heuristic
     """
 
-    def __init__(self, of: ObjFun, maxeval: int, hmax: int = np.inf, random_descent: bool = False) -> None:
+    def __init__(self, of: ObjFun, maxeval: int, hmax: float = np.inf, random_descent: bool = False) -> None:
         """
         Initialization
         :param of: any objective function to be optimized
@@ -64,5 +64,3 @@ class ShootAndGo(Heuristic):
 
         except StopCriterion:
             return self.report_end()
-        except:
-            raise

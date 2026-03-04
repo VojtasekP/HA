@@ -1,5 +1,4 @@
 import numpy as np
-import pandas as pd
 import numpy.typing as npt
 from objfun import ObjFun
 
@@ -56,10 +55,12 @@ class Heuristic:
         Returns report after heuristic has finished
         :return: dict with all necessary data
         """
+        success = self.best_y <= self.of.get_fstar()
         return {
             'best_y': self.best_y,
             'best_x': self.best_x,
-            'neval': self.neval if self.best_y <= self.of.get_fstar() else np.inf
+            'neval': self.neval,
+            'success': success
         }
 
     def search(self) -> None:
