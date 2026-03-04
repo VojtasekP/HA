@@ -33,9 +33,10 @@ class ObjFun(object):
         """
         return [self.a, self.b]
 
-    def generate_point(self) -> npt.NDArray[np.float64]:
+    def generate_point(self, rng: np.random.Generator = None) -> npt.NDArray[np.float64]:
         """
         Random point generator placeholder
+        :param rng: numpy random generator instance
         :return: random point from the domain
         """
         raise NotImplementedError("Objective function must implement its own random point generator")

@@ -10,15 +10,16 @@ class ShootAndGo(Heuristic):
     Implementation of generalized Shoot & Go heuristic
     """
 
-    def __init__(self, of: ObjFun, maxeval: int, hmax: float = np.inf, random_descent: bool = False) -> None:
+    def __init__(self, of: ObjFun, maxeval: int, hmax: float = np.inf, random_descent: bool = False, seed: int = None) -> None:
         """
         Initialization
         :param of: any objective function to be optimized
         :param maxeval: maximum allowed number of evaluations
         :param hmax: maximum number of local improvements (0 = Random Shooting)
         :param random_descent: turns on random descent, instead of the steepest one (default)
+        :param seed: random seed for reproducibility (None = non-deterministic)
         """
-        Heuristic.__init__(self, of, maxeval)
+        Heuristic.__init__(self, of, maxeval, seed)
         self.hmax = hmax
         self.random_descent = random_descent
 
@@ -37,7 +38,7 @@ class ShootAndGo(Heuristic):
 
             neighborhood = self.of.get_neighborhood(desc_best_x, 1)
             if self.random_descent:
-                np.random.shuffle(neighborhood)
+                self.rng.shuffle(neighborhood)
 
             for xn in neighborhood:
                 yn = self.evaluate(xn)
@@ -56,7 +57,7 @@ class ShootAndGo(Heuristic):
         try:
             while True:
                 # Shoot...
-                x = self.of.generate_point()  # global search
+                x = self.of.generate_point(self.rng)  # global search
                 self.evaluate(x)
                 # ...and Go
                 if self.hmax > 0:

@@ -21,17 +21,19 @@ class Heuristic:
     Generic heuristic super-class
     """
 
-    def __init__(self, of: ObjFun, maxeval: int) -> None:
+    def __init__(self, of: ObjFun, maxeval: int, seed: int = None) -> None:
         """
         Initialization function
         :param of: any objective function to be optimized
         :param maxeval: maximum allowed number of evaluations
+        :param seed: random seed for reproducibility (None = non-deterministic)
         """
         self.of = of
         self.maxeval = maxeval
         self.best_y = np.inf
         self.best_x = None
         self.neval = 0
+        self.rng = np.random.default_rng(seed)
 
     def evaluate(self, x: npt.NDArray[np.float64]) -> np.float64:
         """

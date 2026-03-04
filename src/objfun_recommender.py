@@ -33,15 +33,15 @@ class Recommender(ObjFun):
         fstar = _evaluate(X_OPT, Y_OPT)
         super().__init__(fstar, a, b)
 
-    def generate_point(self) -> npt.NDArray[np.int64]:
+    def generate_point(self, rng: np.random.Generator = None) -> npt.NDArray[np.int64]:
         """
         Random integer point from the domain.
+        :param rng: numpy random generator instance (None = non-deterministic)
         :return: random point in [0, 99] x [0, 99] (integer coordinates)
         """
-        return np.array(
-            [np.random.randint(0, 100), np.random.randint(0, 100)],
-            dtype=np.int64,
-        )
+        if rng is None:
+            rng = np.random.default_rng()
+        return rng.integers(0, 100, size=2).astype(np.int64)
 
     def get_neighborhood(
         self, x: npt.NDArray[np.int64], d: int
