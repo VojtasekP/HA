@@ -109,6 +109,14 @@ class GeneticOptimization(Heuristic):
                 for i in np.arange(self.M):
                     parent_a_ix = self.rank_select(temp=self.Tsel1, n_max=self.N, rng=self.rng)
                     parent_b_ix = self.rank_select(temp=self.Tsel1, n_max=self.N, rng=self.rng)
+                    if parent_a_ix == parent_b_ix and self.N > 1:
+                        # prevent degeneration: shift to an adjacent (better or worse) individual
+                        if parent_b_ix == 0:
+                            parent_b_ix = 1                           # only worse available
+                        elif parent_b_ix == self.N - 1:
+                            parent_b_ix = self.N - 2                  # only better available
+                        else:
+                            parent_b_ix += self.rng.choice([-1, 1])   # randomly better or worse
                     par_a = pop_X[parent_a_ix, :]
                     par_b = pop_X[parent_b_ix, :]
                     z = self.crossover.crossover(par_a, par_b, self.rng)
