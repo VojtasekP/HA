@@ -4,3 +4,5 @@ matplotlib
 seaborn
 jupyter
 tqdm
+scipy
+scikit-learn
